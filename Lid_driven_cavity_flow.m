@@ -2,7 +2,7 @@ clear all
 close all
 clc
 
-%% Defining the problem domain
+% Defining the problem domain
 n_points = 51; % Number of points
 dom_length = 1;
 h = dom_length/(n_points-1);
@@ -15,7 +15,7 @@ nu = 1/Re;
 alpha = 0.8;
 alpha_p = 0.8;
 
-%% Initializing the variables
+% Initializing the variables
 u_final(n_points,n_points) = 0;
 v_final(n_points,n_points) = 0;
 p_final(n_points,n_points) = 1;
@@ -38,7 +38,7 @@ v_new(n_points,n_points+1) = 0;
 p_new(n_points+1,n_points+1) = 1;
 u_new(1,:) = 2;
 
-%% Solving the governing equations
+% Solving the governing equations
 error = 1;
 iterations = 0;
 error_req = 1e-7; % Required residual error
@@ -173,7 +173,7 @@ for i = 1:n_points
     end
 end
 
-%% Plots and Visualizations
+% Plots and Visualizations
 x_dom = ((1:n_points)-1).*h;
 y_dom = 1 - ((1:n_points)-1).*h;
 [X, Y] = meshgrid(x_dom, y_dom);
