@@ -1,0 +1,71 @@
+%Generating a simple mesh and visualising the flow over it 
+N=15;                       %number of grid points 
+x=linspace(-pi,pi,N); 
+y=linspace(-pi,pi,N); 
+L=2*pi;                     %total length 
+ 
+%To view the mesh 
+[X,Y]=meshgrid(x,y); 
+figure (1) 
+plot(X,Y,'k');        %In the x direction 
+hold on; 
+plot(X',Y','k');      %In the y direction 
+xlabel('x'), ylabel('y') 
+title('Uniform 15×15 grid') 
+ 
+%Initialisation 
+u=zeros(N,N); 
+v=zeros(N,N); 
+P=zeros(N,N); 
+t=0; 
+for i = 1:N 
+   for j = 1:N 
+       
+       u(j,i) = -exp(-2*t) * cos(x(i)) * sin(y(j)); 
+       v(j,i) =  exp(-2*t) * sin(x(i)) * cos(y(j)); 
+       P(j,i) = -((cos(2*x(i)) + cos(2*y(j))) * exp(-2*t)) / 4; 
+   end 
+end 
+ 
+%Pressure 
+figure (2) 
+contourf (X,Y,P,30) 
+colorbar 
+xlabel('x'); 
+ylabel('y'); 
+title('Pressure Contour') 
+axis equal 
+%Velocity Vectors 
+figure (3) 
+quiver (X,Y,u,v) 
+xlabel('x'); 
+ylabel('y'); 
+title('Velocity Vectors') 
+axis equal 
+%Velocity Streamlines 
+figure (4) 
+streamslice(X,Y,u,v) 
+xlabel('x'); 
+ylabel ('y'); 
+title('Velocity Streamlines') 
+axis equal 
+%Initialising array for vorticity 
+w=zeros(N,N);    
+%Grid size 
+dx=L/(N-1); 
+dy=L/(N-1); 
+%Central differencing scheme 
+for j=2:N-1 
+for i=2:N-1 
+dudy= (u(j+1,i)-u(j-1,i))/(2*dy);    
+dvdx= (v(j,i+1)-v(j,i-1))/(2*dx);    
+w(j,i)=dvdx - dudy; 
+end 
+end 
+%Vorticity 
+figure (5) 
+contourf (X,Y,w,30) 
+colorbar 
+xlabel ('x'); 
+ylabel ('y'); 
+title('Vorticity Contour') 
